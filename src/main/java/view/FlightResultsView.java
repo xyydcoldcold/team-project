@@ -27,6 +27,7 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
 
     private final JButton sortByPrice;
     private final JButton sortByDuration;
+    private final JButton sortByNonstop;
     private final JButton goBack;
     private GoBackController goBackController;
     private SortFlightsController sortFlightsController;
@@ -70,10 +71,12 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
         JPanel buttons = new JPanel();
         sortByPrice = new JButton(FlightResultsViewModel.SORT_BY_PRICE_BUTTON_LABEL);
         sortByDuration = new JButton(FlightResultsViewModel.SORT_BY_DURATION_BUTTON_LABEL);
+        sortByNonstop = new JButton(FlightResultsViewModel.NONSTOP_BUTTON_LABEL);
         goBack = new JButton(FlightResultsViewModel.GO_BACK_BUTTON_LABEL);
 
         buttons.add(sortByDuration);
         buttons.add(sortByPrice);
+        buttons.add(sortByNonstop);
         buttons.add(goBack);
 
         // --- Button Listeners ---
@@ -94,6 +97,13 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
             if (sortFlightsController != null) {
                 FlightResultsState currentState = flightResultsViewModel.getState();
                 sortFlightsController.execute(currentState.getFlights(), "DURATION");
+            }
+        });
+
+        sortByNonstop.addActionListener(e -> {
+            if (sortFlightsController != null) {
+                FlightResultsState currentState = flightResultsViewModel.getState();
+                sortFlightsController.execute(currentState.getFlights(), "NONSTOP");
             }
         });
         // Listeners will be added once controllers are made
