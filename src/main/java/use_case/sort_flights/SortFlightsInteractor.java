@@ -3,6 +3,7 @@ package use_case.sort_flights;
 import entity.Flight;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ArrayList;
 
 public class SortFlightsInteractor implements SortFlightsInputBoundary {
     private final SortFlightsOutputBoundary sortFlightsPresenter;
@@ -20,6 +21,17 @@ public class SortFlightsInteractor implements SortFlightsInputBoundary {
             // Sort by price (lowest first)
             // THE FIX: Use a lambda to access the public 'priceTotal' field
             flights.sort(Comparator.comparingDouble(flight -> flight.priceTotal));
+
+        } else if (sortType.equals("NONSTOP")) {
+            List<Flight> nonstopFlights = new ArrayList<>();
+            for (Flight f : flights) {
+                if (f.airline == null) continue;
+                String letters = f.airline.replaceAll("[^A-Z]", "");
+                if (letters.length() == 2) {
+                    nonstopFlights.add(f);
+                }
+            }
+            flights = nonstopFlights;
 
         } else {
             // Default to sorting by duration (shortest first)
