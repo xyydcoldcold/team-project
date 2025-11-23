@@ -1,6 +1,7 @@
 package entity;
 
 public class Flight {
+    public final String Id;
     public final String depAirport;
     public final String depTime;
     public final String arrAirport;
@@ -11,10 +12,12 @@ public class Flight {
     public final String airline;
     public final String aircraft;
 
-    public Flight(String depAirport, String deptime,
+    public Flight(String offerId,
+                  String depAirport, String deptime,
                   String arrAirport, String arrTime,
                   double priceTotal, String currency,
                   String duration, String airline, String aircraft) {
+        this.Id = offerId;
         this.depAirport = depAirport;
         this.depTime = deptime;
         this.arrAirport = arrAirport;
