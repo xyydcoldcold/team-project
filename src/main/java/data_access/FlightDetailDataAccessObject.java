@@ -27,7 +27,6 @@ public class FlightDetailDataAccessObject implements FlightDetailDataAccessInter
 
         String id = flight.Id;
 
-        // 1. 从缓存里找对应 offer
         JSONObject offerJson = cache.getOfferById(id);
 
         if (offerJson == null) {
