@@ -1,6 +1,7 @@
 package api_access;
 
 import entity.Flight;
+import data_access.FlightOfferCache;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -27,8 +28,8 @@ public class AmadeusRawObject {
                                              boolean nonStop) {
         OkHttpClient client = new OkHttpClient();
 
-        String clientId = "lGzBA7axN4uXsMYdttpiicJQ9GUMosxb";
-        String clientSecret = "2s3s3AsFHKM79bUA";
+        String clientId = "xAellLGd477aHyuSLn1cBW0bQr6hKaM9";
+        String clientSecret = "LIiEa7QZoQE9yImg";
         String accessToken;
 
         List<Flight> list = new ArrayList<>();
@@ -88,6 +89,11 @@ public class AmadeusRawObject {
                         ? root.getJSONObject("dictionaries").optJSONObject("aircraft") : null;
 
                 JSONArray data = root.getJSONArray("data");
+
+                // After parsing root
+                FlightOfferCache cache = FlightOfferCache.getInstance();
+                cache.storeFullResponse(root);
+
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject offer = data.getJSONObject(i);
 
@@ -120,10 +126,21 @@ public class AmadeusRawObject {
                         aircraft = dictAircraft.getString(aircraftCode);
                     }
 
+                    String id = offer.getString("id");  // <-- NEW
+
                     list.add(new Flight(
-                            depAirport, depTime, arrAirport, arrTime,
-                            priceTotal, currency, formatIsoDuration(isoDur), airline.toString(), aircraft
+                            id,                    // <-- add this
+                            depAirport,
+                            depTime,
+                            arrAirport,
+                            arrTime,
+                            priceTotal,
+                            currency,
+                            formatIsoDuration(isoDur),
+                            airline.toString(),
+                            aircraft
                     ));
+
                 }
 
                 for (Flight f : list) {
