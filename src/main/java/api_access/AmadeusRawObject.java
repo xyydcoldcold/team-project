@@ -90,7 +90,6 @@ public class AmadeusRawObject {
 
                 JSONArray data = root.getJSONArray("data");
 
-                // After parsing root
                 FlightOfferCache cache = FlightOfferCache.getInstance();
                 cache.storeFullResponse(root);
 
