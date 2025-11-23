@@ -3,6 +3,7 @@ package app;
 import data_access.FileUserDataAccessObject;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.flight_detail.FlightDetailViewModel;
 import interface_adapter.logged_in.ChangePasswordController;
 import interface_adapter.logged_in.ChangePasswordPresenter;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -17,6 +18,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
+import use_case.flight_detail.FlightDetailDataAccessInterface;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -48,6 +50,14 @@ import use_case.sort_flights.SortFlightsInputBoundary;
 import use_case.sort_flights.SortFlightsInteractor;
 import use_case.sort_flights.SortFlightsOutputBoundary;
 
+import data_access.FlightDetailDataAccessObject;
+import interface_adapter.flight_detail.FlightDetailController;
+import interface_adapter.flight_detail.FlightDetailPresenter;
+import use_case.flight_detail.FlightDetailInputBoundary;
+import use_case.flight_detail.FlightDetailOutputBoundary;
+import use_case.flight_detail.FlightDetailInteractor;
+import view.FlightDetailView;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -75,6 +85,8 @@ public class AppBuilder {
     private LoginView loginView;
     private FlightResultsViewModel flightResultsViewModel;
     private FlightResultsView flightResultsView;
+    private FlightDetailViewModel flightDetailViewModel;
+    private FlightDetailView flightDetailView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -225,4 +237,36 @@ public class AppBuilder {
 
         return this;
     }
+
+    public AppBuilder addFlightDetailView() {
+        this.flightDetailViewModel = new FlightDetailViewModel();
+
+        this.flightDetailView = new FlightDetailView(flightDetailViewModel);
+
+        cardPanel.add(flightDetailView, flightDetailView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addFlightDetailUseCase() {
+        final FlightDetailDataAccessInterface flightDetailDataAccessObject = new FlightDetailDataAccessObject();
+
+        final FlightDetailPresenter presenter = new FlightDetailPresenter(flightDetailViewModel,
+                flightResultsViewModel,
+                viewManagerModel);
+
+        final FlightDetailInputBoundary flightDetailInteractor = new FlightDetailInteractor(flightDetailDataAccessObject,presenter);
+
+
+        final FlightDetailController controller =
+                new FlightDetailController(flightDetailInteractor);
+
+        flightDetailView.setController(controller);
+
+        if (this.flightResultsView != null) {
+            this.flightResultsView.setFlightDetailController(controller);
+        }
+
+        return this;
+    }
+
 }

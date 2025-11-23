@@ -10,12 +10,14 @@ public class Main {
                 .addSignupView()
                 .addLoggedInView()
                 .addFlightResultsView()
+                .addFlightDetailView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addChangePasswordUseCase()
                 .addLogoutUseCase()
                 .addFindFlightUseCase()
                 .addSortFlightsUseCase()
+                .addFlightDetailUseCase()
                 .build();
 
         application.pack();

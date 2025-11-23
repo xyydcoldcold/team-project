@@ -5,6 +5,7 @@ import interface_adapter.flight_results.FlightResultsState;
 import interface_adapter.flight_results.FlightResultsViewModel;
 import interface_adapter.go_back.GoBackController;
 import interface_adapter.sort_flights.SortFlightsController;
+import interface_adapter.flight_detail.FlightDetailController;
 import javax.swing.table.TableColumn;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
     private final JButton goBack;
     private GoBackController goBackController;
     private SortFlightsController sortFlightsController;
+    private FlightDetailController flightDetailController;
 
     private JTable flightTable;
     private DefaultTableModel tableModel;
@@ -54,9 +56,7 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
         // Create a non-editable table model
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+            public boolean isCellEditable(int row, int column) { return column == 11;}
         };
         flightTable = new JTable(tableModel);
         flightTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -65,7 +65,9 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
 
         TableColumn detailsColumn = flightTable.getColumnModel().getColumn(11); // 11 is the index of the "Details" column
         detailsColumn.setCellRenderer(new ButtonRenderer());
-        detailsColumn.setCellEditor(new ButtonEditor(new JCheckBox()));
+        ButtonEditor editor = new ButtonEditor(new JCheckBox());
+        detailsColumn.setCellEditor(editor);
+
 
         // --- Button Panel ---
         JPanel buttons = new JPanel();
@@ -163,7 +165,22 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
             };
             tableModel.addRow(rowData);
         }
+        refreshButtonEditor();
     }
+
+    private void refreshButtonEditor() {
+        TableColumn detailsColumn = flightTable.getColumnModel().getColumn(11);
+
+        ButtonEditor editor = new ButtonEditor(new JCheckBox());
+        editor.setDependencies(
+                flightTable,
+                flightResultsViewModel.getState().getFlights(),
+                flightDetailController
+        );
+
+        detailsColumn.setCellEditor(editor);
+    }
+
 
     public void setGoBackController(GoBackController goBackController) {
         this.goBackController = goBackController;
@@ -171,6 +188,11 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
 
     public void setSortFlightsController(SortFlightsController sortFlightsController) {
         this.sortFlightsController = sortFlightsController;
+    }
+
+    public void setFlightDetailController(FlightDetailController controller) {
+        this.flightDetailController = controller;
+        refreshButtonEditor();
     }
 
     @Override
@@ -182,6 +204,7 @@ public class FlightResultsView extends JPanel implements ActionListener, Propert
                 state.setError(null); // Clear error after showing
             } else {
                 updateTable(state.getFlights());
+                refreshButtonEditor();
             }
         }
     }
