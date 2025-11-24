@@ -58,6 +58,12 @@ import use_case.flight_detail.FlightDetailOutputBoundary;
 import use_case.flight_detail.FlightDetailInteractor;
 import view.FlightDetailView;
 
+import interface_adapter.go_back.GoBackController;
+import interface_adapter.go_back.GoBackPresenter;
+import use_case.go_back.GoBackInputBoundary;
+import use_case.go_back.GoBackInteractor;
+import use_case.go_back.GoBackOutputBoundary;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -180,8 +186,18 @@ public class AppBuilder {
         flightResultsView = new FlightResultsView(flightResultsViewModel);
         cardPanel.add(flightResultsView, flightResultsView.viewName);
 
-        GoBackController goBackController = new GoBackController(viewManagerModel);
+        // 1. Create the Presenter (connects to ViewManagerModel)
+        GoBackOutputBoundary goBackPresenter = new GoBackPresenter(viewManagerModel);
+
+        // 2. Create the Interactor (connects to Presenter)
+        GoBackInputBoundary goBackInteractor = new GoBackInteractor(goBackPresenter);
+
+        // 3. Create the Controller (connects to Interactor)
+        GoBackController goBackController = new GoBackController(goBackInteractor);
+
+        // 4. Set the controller in the view
         flightResultsView.setGoBackController(goBackController);
+
 
         return this;
     }
