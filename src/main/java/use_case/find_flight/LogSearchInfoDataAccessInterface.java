@@ -12,5 +12,5 @@ public interface LogSearchInfoDataAccessInterface {
      * Logs the search information
      */
 
-    void log(FlightSearchInformation flightSearchInformation);
+    void log(String username, FlightSearchInformation flightSearchInformation);
 }

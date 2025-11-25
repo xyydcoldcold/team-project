@@ -6,19 +6,23 @@ package use_case.find_flight;
 
 public class FindFlightInputData {
 
+    private final String username;
     private final String from;
     private final String to;
     private final int day;
     private final String month;
     private final int year;
 
-    public FindFlightInputData(String from, String to, String day, String month, String year) {
+    public FindFlightInputData(String username, String from, String to, String day, String month, String year) {
+        this.username = username;
         this.from = from;
         this.to = to;
         this.day = Integer.parseInt(day);
         this.month = month;
         this.year = Integer.parseInt(year);
     }
+
+    public String getUsername() {return username;}
 
     public String getFrom() {
         return from;

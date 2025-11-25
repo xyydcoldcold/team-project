@@ -201,6 +201,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                             System.out.println("Controller is NOT null. Executing use case..."); // <-- 2. Is controller valid?
 
                             this.findFlightController.execute(
+                                    currentState.getUsername(),
                                     currentState.getFrom(),
                                     currentState.getTo(),
                                     currentState.getDay(),
