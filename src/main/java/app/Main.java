@@ -18,6 +18,7 @@ public class Main {
                 .addFindFlightUseCase()
                 .addSortFlightsUseCase()
                 .addFlightDetailUseCase()
+                .addViewHistoryUseCase()
                 .build();
 
         application.pack();

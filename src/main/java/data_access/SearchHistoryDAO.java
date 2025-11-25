@@ -2,6 +2,7 @@ package data_access;
 
 import use_case.find_flight.LogSearchInfoDataAccessInterface;
 import entity.FlightSearchInformation;
+import use_case.view_history.ViewHistoryDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
@@ -10,7 +11,7 @@ import java.util.*;
  * Data Access Object for flight search information using a CSV file to persist data
  */
 
-public class FlightSearchInformationDAO implements LogSearchInfoDataAccessInterface {
+public class SearchHistoryDAO implements LogSearchInfoDataAccessInterface, ViewHistoryDataAccessInterface {
 
     private static final String HEADER = "username,date,time,from,to,day,month,year";
 
@@ -25,7 +26,7 @@ public class FlightSearchInformationDAO implements LogSearchInfoDataAccessInterf
      * @throws RuntimeException if there is an IOException when accessing the file
      */
 
-    public FlightSearchInformationDAO(String csvPath) {
+    public SearchHistoryDAO(String csvPath) {
 
         csvFile = new File(csvPath);
         headers.put("username", 0);
@@ -130,6 +131,11 @@ public class FlightSearchInformationDAO implements LogSearchInfoDataAccessInterf
         }
 
         this.save();
+    }
+
+    @Override
+    public List<FlightSearchInformation> getSearchHistory(String username) {
+        return usersFlightSearchInfo.get(username);
     }
 
 }

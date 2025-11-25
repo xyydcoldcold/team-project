@@ -5,6 +5,7 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logged_in.FindFlightController;
+import interface_adapter.view_history.ViewHistoryController;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -26,11 +27,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private ChangePasswordController changePasswordController = null;
     private LogoutController logoutController;
     private FindFlightController findFlightController;
+    private ViewHistoryController viewHistoryController;
+
     //  TODO: IMPLEMENT the controllers, then uncomment this code
-//  private FindFlightController findFlightController;
-//  private SeeHistoryController seeHistoryController;
 //  private SeeSavedFlightsController seeSavedFlightsController;
-//  private LogHistoryController logHistoryController;
+
     private final JButton logOut;
 
     private JLabel usernameInfo = new JLabel();
@@ -221,8 +222,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 evt -> {
                     if (evt.getSource().equals(seeHistory)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-                        // TODO: Implement seeHistoryController
-//                        this.seeHistoryController.execute();
+                        this.viewHistoryController.execute(currentState.getUsername());
                     }
                 }
         );
@@ -276,25 +276,19 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public void setLogoutController(LogoutController logoutController) {
         this.logoutController = logoutController;
     }
-//    TODO: Implement the controllers, then uncomment this code
-//    public void setFindFlightController(FindFlightController findFlightController) {
-//        this.findFlightController = findFlightController;
-//    }
-//
-//    public void setseeHistoryController(SeeHistoryController seeHistoryController) {
-//        this.seeHistoryController = seeHistoryController;
-//    }
+
+    public void setViewHistoryController(ViewHistoryController viewHistoryController) {
+        this.viewHistoryController = viewHistoryController;
+    }
+
+    public void setFindFlightController(FindFlightController findFlightController) {
+        this.findFlightController = findFlightController;
+    }
+
+    //    TODO: Implement the controllers, then uncomment this code
 //
 //    public void setseeSavedFlightsController(SeeSavedFlightsController seeSavedFlightsController) {
 //        this.seeSavedFlightsController = seeSavedFlightsController;
 //    }
-
-    //    public void setlogHistoryController(LogHistoryController logHistoryController) {
-//        this.logHistoryController = logHistoryController;
-//    }
-// ADD THIS METHOD
-    public void setFindFlightController(FindFlightController findFlightController) {
-        this.findFlightController = findFlightController;
-    }
 }
 

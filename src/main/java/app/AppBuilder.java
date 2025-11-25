@@ -15,6 +15,8 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.view_history.ViewHistoryController;
+import interface_adapter.view_history.ViewHistoryPresenter;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -29,12 +31,15 @@ import use_case.save_flight.SaveFlightDataAccessInterface;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.view_history.ViewHistoryInputBoundary;
+import use_case.view_history.ViewHistoryInteractor;
+import use_case.view_history.ViewHistoryOutputBoundary;
 import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
 
-import data_access.FlightSearchInformationDAO;
+import data_access.SearchHistoryDAO;
 import data_access.InMemoryFlightDataAccessObject;
 import helpers.CityCodeConverter;
 import helpers.SearchInfoVerifier;
@@ -58,19 +63,16 @@ import use_case.flight_detail.FlightDetailInputBoundary;
 import use_case.flight_detail.FlightDetailInteractor;
 import view.FlightDetailView;
 
-import interface_adapter.go_back.GoBackController;
 import interface_adapter.go_back.GoBackPresenter;
 import use_case.go_back.GoBackInputBoundary;
 import use_case.go_back.GoBackInteractor;
 import use_case.go_back.GoBackOutputBoundary;
 
-import use_case.save_flight.SaveFlightDataAccessInterface;
 import data_access.SaveFlightDataAccessObject;
 import interface_adapter.save_flight.SaveFlightController;
 import interface_adapter.save_flight.SaveFlightPresenter;
 import interface_adapter.save_flight.SaveFlightViewModel;
 import use_case.save_flight.SaveFlightInputBoundary;
-import use_case.save_flight.SaveFlightOutputBoundary;
 import use_case.save_flight.SaveFlightInteractor;
 
 import javax.swing.*;
@@ -88,6 +90,7 @@ public class AppBuilder {
 
     // DAO version using local file storage
     final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("users.csv", userFactory);
+    final SearchHistoryDAO searchHistoryDAO = new SearchHistoryDAO("search_history.csv");
 
     // DAO version using a shared external database
     // final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
@@ -217,7 +220,7 @@ public class AppBuilder {
         // --- Initialize DAOs ---
         // (We use InMemory for this example, but you could swap it)
         FindFlightUserDataAccessInterface flightDataAccessObject = new InMemoryFlightDataAccessObject();
-        LogSearchInfoDataAccessInterface logSearchInfoDAO = new FlightSearchInformationDAO("search_history.csv");
+
 
         // --- Initialize Helpers ---
         CityCodeConverter cityCodeConverter = new CityCodeConverter();
@@ -234,7 +237,7 @@ public class AppBuilder {
         FindFlightInputBoundary findFlightInteractor = new FindFlightInteractor(
                 searchInfoVerifier,
                 findFlightPresenter,
-                logSearchInfoDAO,
+                searchHistoryDAO,
                 cityCodeConverter,
                 flightDataAccessObject
         );
@@ -305,6 +308,16 @@ public class AppBuilder {
         final SaveFlightController saveFlightController = new SaveFlightController(saveFlightInteractor);
 
         flightDetailView.setSaveFlightController(saveFlightController);
+
+        return this;
+    }
+
+    public AppBuilder addViewHistoryUseCase() {
+
+        final ViewHistoryOutputBoundary viewHistoryPresenter= new ViewHistoryPresenter();
+        final ViewHistoryInputBoundary viewHistoryInteractor = new ViewHistoryInteractor(searchHistoryDAO,  viewHistoryPresenter);
+        final ViewHistoryController viewHistoryController = new ViewHistoryController(viewHistoryInteractor);
+        loggedInView.setViewHistoryController(viewHistoryController);
 
         return this;
     }

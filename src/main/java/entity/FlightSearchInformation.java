@@ -49,4 +49,17 @@ public class FlightSearchInformation {
     public String getDateOfSearch() {return dateOfSearch;}
 
     public String getTimeOfSearch() {return timeOfSearch;}
+
+    @Override
+    public String toString() {
+        return "FlightSearchInformation{" +
+                "from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", day=" + day +
+                ", month='" + month + '\'' +
+                ", year=" + year +
+                ", dateOfSearch='" + dateOfSearch + '\'' +
+                ", timeOfSearch='" + timeOfSearch + '\'' +
+                '}';
+    }
 }
