@@ -34,7 +34,7 @@ import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
 
-import data_access.FlightSearchInformationDataAccessObject;
+import data_access.FlightSearchInformationDAO;
 import data_access.InMemoryFlightDataAccessObject;
 import helpers.CityCodeConverter;
 import helpers.SearchInfoVerifier;
@@ -55,7 +55,6 @@ import data_access.FlightDetailDataAccessObject;
 import interface_adapter.flight_detail.FlightDetailController;
 import interface_adapter.flight_detail.FlightDetailPresenter;
 import use_case.flight_detail.FlightDetailInputBoundary;
-import use_case.flight_detail.FlightDetailOutputBoundary;
 import use_case.flight_detail.FlightDetailInteractor;
 import view.FlightDetailView;
 
@@ -218,7 +217,7 @@ public class AppBuilder {
         // --- Initialize DAOs ---
         // (We use InMemory for this example, but you could swap it)
         FindFlightUserDataAccessInterface flightDataAccessObject = new InMemoryFlightDataAccessObject();
-        LogSearchInfoDataAccessInterface logSearchInfoDAO = new FlightSearchInformationDataAccessObject();
+        LogSearchInfoDataAccessInterface logSearchInfoDAO = new FlightSearchInformationDAO("search_history.csv");
 
         // --- Initialize Helpers ---
         CityCodeConverter cityCodeConverter = new CityCodeConverter();

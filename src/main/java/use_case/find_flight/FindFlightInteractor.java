@@ -6,7 +6,10 @@ import helpers.CityCodeConverter;
 import entity.FlightSearchInformation;
 import entity.Flight;
 
+import java.time.LocalTime;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class FindFlightInteractor implements FindFlightInputBoundary{
 
@@ -50,9 +53,22 @@ public class FindFlightInteractor implements FindFlightInputBoundary{
                 // The search info the user entered passed all the checks...
                 // ... (rest of your API call logic)
 
-                final FlightSearchInformation flightSearchInformation = new FlightSearchInformation(findFlightInputData.getFrom(), findFlightInputData.getTo(),
-                        findFlightInputData.getDay(), findFlightInputData.getMonth(), findFlightInputData.getYear());
-                logSearchInfoDataObject.log(flightSearchInformation);
+
+                // Get current date and time
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
+
+                String date = LocalDate.now().format(dateFormatter);
+                String time = LocalTime.now().format(timeFormatter);
+
+                // Create a FlightSearchInformation entity
+                final FlightSearchInformation flightSearchInformation = new FlightSearchInformation(
+                        findFlightInputData.getFrom(), findFlightInputData.getTo(), findFlightInputData.getDay(),
+                        findFlightInputData.getMonth(), findFlightInputData.getYear(), date, time);
+
+
+                // Calls the logger to log the search information into a CSV file
+                logSearchInfoDataObject.log(findFlightInputData.getUsername() ,flightSearchInformation);
 
                 int day = findFlightInputData.getDay();
                 String month = findFlightInputData.getMonth();

@@ -14,8 +14,8 @@ public class FindFlightController {
           this.findFlightUseCaseInteractor = findFlightUseCaseInteractor;
      }
 
-     public void execute (String from, String to, String day, String month, String year) {
-        final FindFlightInputData findFlightInputData = new FindFlightInputData(from, to, day, month, year);
+     public void execute (String username, String from, String to, String day, String month, String year) {
+        final FindFlightInputData findFlightInputData = new FindFlightInputData(username, from, to, day, month, year);
         findFlightUseCaseInteractor.execute(findFlightInputData);
      }
 
