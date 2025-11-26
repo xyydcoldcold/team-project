@@ -17,6 +17,7 @@ import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.view_history.ViewHistoryController;
 import interface_adapter.view_history.ViewHistoryPresenter;
+import interface_adapter.viewing_history.ViewingHistoryViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -34,10 +35,7 @@ import use_case.signup.SignupOutputBoundary;
 import use_case.view_history.ViewHistoryInputBoundary;
 import use_case.view_history.ViewHistoryInteractor;
 import use_case.view_history.ViewHistoryOutputBoundary;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 import data_access.SearchHistoryDAO;
 import data_access.InMemoryFlightDataAccessObject;
@@ -47,7 +45,6 @@ import interface_adapter.flight_results.FlightResultsViewModel;
 import interface_adapter.flight_results.FindFlightPresenter;
 import interface_adapter.logged_in.FindFlightController;
 import use_case.find_flight.*;
-import view.FlightResultsView;
 import interface_adapter.go_back.GoBackController;
 
 import interface_adapter.sort_flights.SortFlightsController;
@@ -61,7 +58,6 @@ import interface_adapter.flight_detail.FlightDetailController;
 import interface_adapter.flight_detail.FlightDetailPresenter;
 import use_case.flight_detail.FlightDetailInputBoundary;
 import use_case.flight_detail.FlightDetailInteractor;
-import view.FlightDetailView;
 
 import interface_adapter.go_back.GoBackPresenter;
 import use_case.go_back.GoBackInputBoundary;
@@ -106,6 +102,8 @@ public class AppBuilder {
     private FlightDetailViewModel flightDetailViewModel;
     private FlightDetailView flightDetailView;
     private SaveFlightViewModel saveFlightViewModel;
+    private ViewingHistoryView viewingHistoryView;
+    private ViewingHistoryViewModel viewingHistoryViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -312,9 +310,16 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addViewingHistoryView() {
+        viewingHistoryViewModel = new ViewingHistoryViewModel();
+        viewingHistoryView = new ViewingHistoryView(viewingHistoryViewModel);
+        cardPanel.add(viewingHistoryView, viewingHistoryView.getViewName());
+        return this;
+    }
+
     public AppBuilder addViewHistoryUseCase() {
 
-        final ViewHistoryOutputBoundary viewHistoryPresenter= new ViewHistoryPresenter();
+        final ViewHistoryOutputBoundary viewHistoryPresenter= new ViewHistoryPresenter(viewingHistoryViewModel, loggedInViewModel,  viewManagerModel);
         final ViewHistoryInputBoundary viewHistoryInteractor = new ViewHistoryInteractor(searchHistoryDAO,  viewHistoryPresenter);
         final ViewHistoryController viewHistoryController = new ViewHistoryController(viewHistoryInteractor);
         loggedInView.setViewHistoryController(viewHistoryController);

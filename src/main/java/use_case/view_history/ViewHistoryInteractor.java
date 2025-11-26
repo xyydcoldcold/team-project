@@ -27,8 +27,17 @@ public class ViewHistoryInteractor implements ViewHistoryInputBoundary{
         String username = viewHistoryInputData.getUsername();
         final List<FlightSearchInformation> searchHistory = viewHistoryDataAccessObject.getSearchHistory(username);
 
-        // Package the data and invoke the presenter
-        final ViewHistoryOutputData viewHistoryOutputData = new ViewHistoryOutputData(searchHistory);
-        viewHistoryPresenter.prepareSuccessView(viewHistoryOutputData);
+        // If user has a search history, package the data and prepare success view
+        if (searchHistory != null) {
+            final ViewHistoryOutputData viewHistoryOutputData = new ViewHistoryOutputData(searchHistory);
+            viewHistoryPresenter.prepareSuccessView(viewHistoryOutputData);
+        }
+
+        // If not, prepare fail view
+        else {
+            viewHistoryPresenter.prepareFailView("Hmm...it appears you do not have any search history yet." +
+                    "\nSearch for a flight and try clicking this button again!");
+        }
+
     }
 }
