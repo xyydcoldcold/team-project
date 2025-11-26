@@ -11,6 +11,7 @@ public class Main {
                 .addLoggedInView()
                 .addFlightResultsView()
                 .addFlightDetailView()
+                .addViewingHistoryView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addChangePasswordUseCase()
@@ -18,6 +19,8 @@ public class Main {
                 .addFindFlightUseCase()
                 .addSortFlightsUseCase()
                 .addFlightDetailUseCase()
+                .addViewHistoryUseCase()
+                .addLoadHistoryUseCase()
                 .addSavedFlightsView()
                 .addSavedFlightsUseCase()
                 .build();

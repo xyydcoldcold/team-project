@@ -10,14 +10,14 @@ public class LoggedInState {
     private String from = "";
     private String to = "";
     private String day = "";
-    private String passwordError;
+    private String error;
     private String month = "January";
     private String year = "2025";
 
     public LoggedInState(LoggedInState copy) {
         username = copy.username;
         password = copy.password;
-        passwordError = copy.passwordError;
+        error = copy.error;
         from = copy.from;
         to = copy.to;
         day = copy.day;
@@ -46,12 +46,12 @@ public class LoggedInState {
         return password;
     }
 
-    public void setPasswordError(String passwordError) {
-        this.passwordError = passwordError;
+    public void setError(String error) {
+        this.error = error;
     }
 
-    public String getPasswordError() {
-        return passwordError;
+    public String getError() {
+        return error;
     }
 
     public void setFrom(String from) {this.from = from;}

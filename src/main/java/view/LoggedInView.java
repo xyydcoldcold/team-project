@@ -5,6 +5,7 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logged_in.FindFlightController;
+import interface_adapter.view_history.ViewHistoryController;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -27,6 +28,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private ChangePasswordController changePasswordController = null;
     private LogoutController logoutController;
     private FindFlightController findFlightController;
+    private ViewHistoryController viewHistoryController;
+
     //  TODO: IMPLEMENT the controllers, then uncomment this code
 //  private FindFlightController findFlightController;
 //  private SeeHistoryController seeHistoryController;
@@ -217,6 +220,15 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        seeHistory.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(seeHistory)) {
+                        final LoggedInState currentState = loggedInViewModel.getState();
+                        this.viewHistoryController.execute(currentState.getUsername());
+                    }
+                }
+        );
         seeSavedFlights.addActionListener(evt -> {
             System.out.println("[UI] Saved Flights button clicked!");
             LoggedInState currentState = loggedInViewModel.getState();
@@ -252,9 +264,21 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        final LoggedInState state = (LoggedInState) evt.getNewValue();
+
         if (evt.getPropertyName().equals("state")) {
-            final LoggedInState state = (LoggedInState) evt.getNewValue();
             this.usernameInfo.setText("Currently logged in as: " + state.getUsername());
+        }
+        else if (evt.getPropertyName().equals("error")) {
+            JOptionPane.showMessageDialog(this, state.getError());
+        }
+
+        else if  (evt.getPropertyName().equals("load selection")) {
+            fromInputField.setText(state.getFrom());
+            toInputField.setText(state.getTo());
+            dayInputField.setText(state.getDay());
+            monthInputField.setSelectedItem(state.getMonth());
+            yearInputField.setSelectedItem(state.getYear());
         }
     }
 
@@ -269,23 +293,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public void setLogoutController(LogoutController logoutController) {
         this.logoutController = logoutController;
     }
-//    TODO: Implement the controllers, then uncomment this code
-//    public void setFindFlightController(FindFlightController findFlightController) {
-//        this.findFlightController = findFlightController;
-//    }
-//
-//    public void setseeHistoryController(SeeHistoryController seeHistoryController) {
-//        this.seeHistoryController = seeHistoryController;
-//    }
-//
-//    public void setseeSavedFlightsController(SeeSavedFlightsController seeSavedFlightsController) {
-//        this.seeSavedFlightsController = seeSavedFlightsController;
-//    }
 
-    //    public void setlogHistoryController(LogHistoryController logHistoryController) {
-//        this.logHistoryController = logHistoryController;
-//    }
-// ADD THIS METHOD
+    public void setViewHistoryController(ViewHistoryController viewHistoryController) {
+        this.viewHistoryController = viewHistoryController;
+    }
+
     public void setFindFlightController(FindFlightController findFlightController) {
         this.findFlightController = findFlightController;
     }
