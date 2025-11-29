@@ -2,27 +2,39 @@ package interface_adapter.save_flight;
 
 import use_case.save_flight.SaveFlightOutputBoundary;
 import use_case.save_flight.SaveFlightOutputData;
-import view.FlightDetailView;
+//import view.FlightDetailView;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.save_flight.SaveFlightViewModel;
+
+import javax.swing.*;
 
 public class SaveFlightPresenter implements SaveFlightOutputBoundary {
 
-    private final FlightDetailView view;
+    private final SaveFlightViewModel saveFlightViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public SaveFlightPresenter(FlightDetailView view) {
-        this.view = view;
+    public SaveFlightPresenter(SaveFlightViewModel saveFlightViewModel, ViewManagerModel viewManagerModel) {
+        this.saveFlightViewModel = saveFlightViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void prepareSuccessView(SaveFlightOutputData outputData) {
-        if (view != null) {
-            view.showMessage(outputData.getMessage());
+        if (saveFlightViewModel != null) {
+            saveFlightViewModel.setMessage(outputData.getMessage());
+            saveFlightViewModel.firePropertyChanged();
+
+
+            // Update the ViewManagerModel state
+            viewManagerModel.setState(SaveFlightViewModel.getViewName());
+
+            viewManagerModel.firePropertyChange("state");
         }
     }
 
     @Override
     public void prepareFailView(SaveFlightOutputData outputData) {
-        if (view != null) {
-            view.showError(outputData.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, outputData.getMessage(),
+                "ERROR: Unable to Save flight", JOptionPane.ERROR_MESSAGE);
     }
 }

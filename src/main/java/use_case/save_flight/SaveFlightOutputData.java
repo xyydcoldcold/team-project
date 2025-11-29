@@ -1,6 +1,7 @@
 package use_case.save_flight;
 
-import entity.FlightDetail;
+//import entity.FlightDetail;
+import data_transfer_objects.FlightDetailDataTransferObject;
 
 
 /**
@@ -9,13 +10,13 @@ import entity.FlightDetail;
 public class SaveFlightOutputData {
     private final boolean success;
     private final String message;
-    private final FlightDetail savedFlight; // optional, can be null
+    private final FlightDetailDataTransferObject savedFlight; // optional, can be null
 
     public SaveFlightOutputData(boolean success, String message) {
         this(success, message, null);
     }
 
-    public SaveFlightOutputData(boolean success, String message, FlightDetail savedFlight) {
+    public SaveFlightOutputData(boolean success, String message, FlightDetailDataTransferObject savedFlight) {
         this.success = success;
         this.message = message;
         this.savedFlight = savedFlight;
@@ -23,5 +24,5 @@ public class SaveFlightOutputData {
 
     public boolean isSuccess() { return success; }
     public String getMessage() { return message; }
-    public FlightDetail getSavedFlight() { return savedFlight; }
+    public FlightDetailDataTransferObject getSavedFlight() { return savedFlight; }
 }

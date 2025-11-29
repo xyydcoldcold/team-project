@@ -337,7 +337,7 @@ public class AppBuilder {
         // Save Flight
         final SaveFlightDataAccessInterface saveFlightDataAccessObject = new SaveFlightDataAccessObject();
 
-        final SaveFlightPresenter saveFlightPresenter = new SaveFlightPresenter(flightDetailView);
+        final SaveFlightPresenter saveFlightPresenter = new SaveFlightPresenter(saveFlightViewModel, viewManagerModel);
 
         final SaveFlightInputBoundary saveFlightInteractor = new SaveFlightInteractor(saveFlightDataAccessObject, this.userDataAccessObject, saveFlightPresenter);
 

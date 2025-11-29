@@ -10,6 +10,11 @@ public class SaveFlightViewModel {
     private String message;
     private boolean success;
     private boolean alreadySaved;
+    private static final String viewName = "save flight";
+
+    public static String getViewName() {
+        return viewName;
+    }
 
     public void setMessage(String message) {
         this.message = message;
