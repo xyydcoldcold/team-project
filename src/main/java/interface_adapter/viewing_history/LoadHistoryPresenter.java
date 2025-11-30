@@ -16,7 +16,7 @@ public class LoadHistoryPresenter implements LoadHistoryOutputBoundary {
     private final LoggedInViewModel loggedInViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public LoadHistoryPresenter(ViewingHistoryViewModel viewingHistoryViewModel,  LoggedInViewModel loggedInViewModel,
+    public LoadHistoryPresenter(ViewingHistoryViewModel viewingHistoryViewModel, LoggedInViewModel loggedInViewModel,
                                 ViewManagerModel viewManagerModel) {
 
         this.viewingHistoryViewModel = viewingHistoryViewModel;
@@ -26,9 +26,9 @@ public class LoadHistoryPresenter implements LoadHistoryOutputBoundary {
 
     @Override
     public void prepareSuccessView(LoadHistoryOutputData loadHistoryOutputData) {
-        final String from  = loadHistoryOutputData.getFrom();
+        final String from = loadHistoryOutputData.getFrom();
         final String to = loadHistoryOutputData.getTo();
-        final String day  = loadHistoryOutputData.getDay();
+        final String day = loadHistoryOutputData.getDay();
         final String month = loadHistoryOutputData.getMonth();
         final String year = loadHistoryOutputData.getYear();
 
