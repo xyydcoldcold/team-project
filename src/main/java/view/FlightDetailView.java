@@ -1,9 +1,13 @@
 package view;
 
-import entity.FlightDetail;
-import entity.FlightDetail.SegmentDetail;
-import entity.FlightDetail.Amenity;
-import entity.FlightDetail.Baggage;
+//import entity.FlightDetail;
+//import entity.FlightDetail.SegmentDetail;
+//import entity.FlightDetail.Amenity;
+//import entity.FlightDetail.Baggage;
+import data_transfer_objects.FlightDetailDataTransferObject;
+import data_transfer_objects.FlightDetailDataTransferObject.AmenityDTO;
+import data_transfer_objects.FlightDetailDataTransferObject.BaggageDTO;
+import data_transfer_objects.FlightDetailDataTransferObject.SegmentDTO;
 import interface_adapter.flight_detail.FlightDetailController;
 import interface_adapter.flight_detail.FlightDetailState;
 import interface_adapter.flight_detail.FlightDetailViewModel;
@@ -67,7 +71,7 @@ public class FlightDetailView extends JPanel implements PropertyChangeListener {
 
         saveButton.addActionListener(e -> {
             FlightDetailState state = fdViewModel.getState();
-            FlightDetail detail = state.getFlightDetail();
+            FlightDetailDataTransferObject detail = state.getFlightDetail();
 
             if (detail == null) {
                 JOptionPane.showMessageDialog(this, "No flight loaded.");
@@ -111,7 +115,7 @@ public class FlightDetailView extends JPanel implements PropertyChangeListener {
                 return;
             }
 
-            FlightDetail detail = state.getFlightDetail();
+            FlightDetailDataTransferObject detail = state.getFlightDetail();
             if (detail == null) {
                 renderEmpty();
             } else {
@@ -129,7 +133,7 @@ public class FlightDetailView extends JPanel implements PropertyChangeListener {
         contentPanel.repaint();
     }
 
-    private void renderDetail(FlightDetail fd) {
+    private void renderDetail(FlightDetailDataTransferObject fd) {
         contentPanel.removeAll();
 
         // Title section
@@ -149,7 +153,7 @@ public class FlightDetailView extends JPanel implements PropertyChangeListener {
         addTitle("Flight Segments");
 
         for (int i = 0; i < fd.segments.size(); i++) {
-            SegmentDetail seg = fd.segments.get(i);
+            SegmentDTO seg = fd.segments.get(i);
 
             addSubtitle("Segment " + (i + 1));
 
@@ -166,7 +170,7 @@ public class FlightDetailView extends JPanel implements PropertyChangeListener {
             addLine("Cabin Class: " + seg.cabinClass);
 
             // Baggage
-            Baggage bag = seg.baggage;
+            BaggageDTO bag = seg.baggage;
             addLine("Checked Bags: " + bag.checkedBags);
             addLine("Cabin Bags: " + bag.cabinBags);
 
@@ -174,7 +178,7 @@ public class FlightDetailView extends JPanel implements PropertyChangeListener {
             if (seg.amenities != null && !seg.amenities.isEmpty()) {
                 addSubtitle("Amenities:");
 
-                for (Amenity am : seg.amenities) {
+                for (AmenityDTO am : seg.amenities) {
                     String chargeInfo = am.isChargeable ? "(Extra)" : "(Included)";
                     addSmall("- " + am.description + " / " + am.amenityType + " " + chargeInfo);
                 }

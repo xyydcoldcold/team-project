@@ -2,6 +2,9 @@ package use_case.flight_detail;
 
 import entity.Flight;
 import entity.FlightDetail;
+import data_transfer_objects.FlightDetailDataTransferObject;
+import data_transfer_objects.DTOToFlightDetailMapper;
+import data_transfer_objects.FlightDetailToDTOMapper;
 
 public class FlightDetailInteractor implements FlightDetailInputBoundary {
 
@@ -28,7 +31,7 @@ public class FlightDetailInteractor implements FlightDetailInputBoundary {
                 return;
             }
 
-            // --- Call API or data source to get the full flight detail ---
+            // --- Call data source to get the full flight detail ---
             FlightDetail detail = flightDetailDataAccessObject.fetchDetail(flight);
 
             if (detail == null) {
@@ -36,7 +39,10 @@ public class FlightDetailInteractor implements FlightDetailInputBoundary {
                 return;
             }
 
-            FlightDetailOutputData outputData = new FlightDetailOutputData(detail);
+            FlightDetailToDTOMapper mapper = new FlightDetailToDTOMapper();
+            FlightDetailDataTransferObject outputDataDetail = mapper.map(detail);
+
+            FlightDetailOutputData outputData = new FlightDetailOutputData(outputDataDetail);
             flightDetailPresenter.prepareSuccessView(outputData);
 
         } catch (Exception e) {

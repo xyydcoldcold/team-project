@@ -1,6 +1,9 @@
 package use_case.save_flight;
 
 import entity.FlightDetail;
+import data_transfer_objects.FlightDetailDataTransferObject;
+import data_transfer_objects.FlightDetailToDTOMapper;
+import data_transfer_objects.DTOToFlightDetailMapper;
 import data_access.FileUserDataAccessObject; // assume this exists
 
 public class SaveFlightInteractor implements SaveFlightInputBoundary {
@@ -25,7 +28,12 @@ public class SaveFlightInteractor implements SaveFlightInputBoundary {
             return;
         }
 
-        FlightDetail detail = inputData.getFlightDetail();
+        FlightDetailDataTransferObject detailDTO = inputData.getFlightDetail();
+        DTOToFlightDetailMapper mapper = new DTOToFlightDetailMapper();
+
+        FlightDetail detail = mapper.map(detailDTO);
+
+
         String flightId = inputData.getFlightId();
 
         if (flightId == null || flightId.isEmpty()) {
@@ -47,8 +55,11 @@ public class SaveFlightInteractor implements SaveFlightInputBoundary {
 
             flightGateway.saveFlightForUser(username, detail);
 
+            FlightDetailToDTOMapper mapperDTO = new FlightDetailToDTOMapper();
+            FlightDetailDataTransferObject detailDto = mapperDTO.map(detail);
+
             presenter.prepareSuccessView(
-                    new SaveFlightOutputData(true, "Flight saved successfully!", detail)
+                    new SaveFlightOutputData(true, "Flight saved successfully!", detailDto)
             );
         } catch (Exception e) {
             e.printStackTrace();

@@ -28,9 +28,14 @@ public class LogoutPresenter implements LogoutOutputBoundary {
 
     @Override
     public void prepareSuccessView(LogoutOutputData response) {
+        // Clear all fields in Logged in View
         final LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.setUsername("");
-        loggedInState.setPassword("");
+        loggedInState.setMonth("");
+        loggedInState.setYear("");
+        loggedInState.setDay("");
+        loggedInState.setFrom("");
+        loggedInState.setTo("");
         this.loggedInViewModel.firePropertyChange();
         // This code tells the View Manager to switch to the LoginView.
 
