@@ -211,7 +211,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                                     currentState.getMonth(),
                                     currentState.getYear()
                             );
-                        } else {
+                        }
+                        else {
                             // THIS IS THE MOST LIKELY PROBLEM
                             System.err.println("FindFlightController is NULL. Check AppBuilder wiring."); // <-- 3. Is it null?
                             JOptionPane.showMessageDialog(this, "Error: FindFlightController is not initialized.", "Wiring Error", JOptionPane.ERROR_MESSAGE);
@@ -237,11 +238,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             if (seeSavedFlightsController != null) {
                 System.out.println("[UI] calling controller...");
                 seeSavedFlightsController.execute(currentState.getUsername());
-            } else {
+            }
+            else {
                 System.err.println("[UI] Controller is NULL!!! Wiring error.");
             }
         });
-
 
         this.add(title);
         this.add(this.usernameInfo);
@@ -273,7 +274,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             JOptionPane.showMessageDialog(this, state.getError());
         }
 
-        else if  (evt.getPropertyName().equals("load selection")) {
+        else if (evt.getPropertyName().equals("load selection")) {
             fromInputField.setText(state.getFrom());
             toInputField.setText(state.getTo());
             dayInputField.setText(state.getDay());
@@ -301,6 +302,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     public void setFindFlightController(FindFlightController findFlightController) {
         this.findFlightController = findFlightController;
     }
+
     public void setSeeSavedFlightsController(SeeSavedFlightsController controller) {
         this.seeSavedFlightsController = controller;
     }

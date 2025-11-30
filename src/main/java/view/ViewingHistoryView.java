@@ -20,7 +20,6 @@ import java.beans.PropertyChangeListener;
 
 public class ViewingHistoryView extends JPanel implements ActionListener, PropertyChangeListener {
 
-
     private final String viewName = "viewing history";
     private final ViewingHistoryViewModel viewingHistoryViewModel;
     private LoadHistoryController loadHistoryController;
