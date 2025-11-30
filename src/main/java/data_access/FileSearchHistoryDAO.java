@@ -11,7 +11,7 @@ import java.util.*;
  * Data Access Object for flight search information using a CSV file to persist data
  */
 
-public class SearchHistoryDAO implements LogSearchInfoDataAccessInterface, ViewHistoryDataAccessInterface {
+public class FileSearchHistoryDAO implements LogSearchInfoDataAccessInterface, ViewHistoryDataAccessInterface {
 
     private static final String HEADER = "username,date,time,from,to,day,month,year";
 
@@ -26,7 +26,7 @@ public class SearchHistoryDAO implements LogSearchInfoDataAccessInterface, ViewH
      * @throws RuntimeException if there is an IOException when accessing the file
      */
 
-    public SearchHistoryDAO(String csvPath) {
+    public FileSearchHistoryDAO(String csvPath) {
 
         csvFile = new File(csvPath);
         headers.put("username", 0);
