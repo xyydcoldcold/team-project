@@ -73,6 +73,7 @@ class ViewHistoryInteractorTest {
 
             @Override
             public void prepareFailView(String errorMessage) {
+                // verify that the correct error message sent to the presenter
                 String expectedMessage = "Hmm...it appears you do not have any search history yet."
                                             + "\nSearch for a flight and try clicking this button again!";
                 assertEquals(expectedMessage, errorMessage);
