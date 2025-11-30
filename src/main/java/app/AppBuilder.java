@@ -42,7 +42,7 @@ import use_case.view_history.ViewHistoryInteractor;
 import use_case.view_history.ViewHistoryOutputBoundary;
 import view.*;
 
-import data_access.SearchHistoryDAO;
+import data_access.FileSearchHistoryDAO;
 import data_access.InMemoryFlightDataAccessObject;
 import use_case.sort_flights.SortFlightsDataAccessInterface;
 import view.LoggedInView;
@@ -108,7 +108,7 @@ public class AppBuilder {
 
     // DAO version using local file storage
     final FileUserDataAccessObject userDataAccessObject = new FileUserDataAccessObject("users.csv", userFactory);
-    final SearchHistoryDAO searchHistoryDAO = new SearchHistoryDAO("search_history.csv");
+    final FileSearchHistoryDAO searchHistoryDAO = new FileSearchHistoryDAO("search_history.csv");
 
     // DAO version using a shared external database
     // final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);

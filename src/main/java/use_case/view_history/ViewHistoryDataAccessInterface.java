@@ -11,7 +11,7 @@ import java.util.List;
 public interface ViewHistoryDataAccessInterface {
 
     /**
-     * Get the search history for a given user
+     * Get the search history for a given user.
      * @param username the username retrieve the search history for
      */
 
